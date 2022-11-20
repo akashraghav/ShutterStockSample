@@ -1,0 +1,83 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+}
+
+android {
+    compileSdk 32
+
+    def localProperties = new Properties()
+    localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
+    defaultConfig {
+        applicationId "com.raghav.shutterstocksample"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            buildConfigField("String", "SHUTTER_AUTH_KEY", "${localProperties['auth_token']}")
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation libs.kotlinCore
+    implementation libs.kotlinStdLib
+
+    implementation libs.appCompat
+    implementation libs.material
+    implementation libs.constraintLayout
+    implementation libs.recyclerView
+    implementation libs.fragment2
+    implementation libs.paging
+    implementation libs.navigationapi
+    implementation libs.navigationui
+    implementation libs.glide
+
+    implementation libs.retrofit
+    implementation libs.gson
+    implementation libs.gsonConverter
+    implementation libs.hilt
+    kapt libs.hiltCompiler
+
+    testImplementation libs.junit
+    androidTestImplementation libs.junit
+    androidTestImplementation libs.junitExt
+    androidTestImplementation libs.instrumentationMonitor
+    testImplementation libs.mockk
+    androidTestImplementation libs.mockkAndroid
+    testImplementation libs.mockwebserver
+    testImplementation libs.kotlinCoroutinesTest
+    androidTestImplementation libs.kotlinCoroutinesTest
+
+    androidTestImplementation libs.androidXTest
+    androidTestImplementation libs.androidXTestExtensions
+    androidTestImplementation libs.androidXTestKotlin
+    androidTestImplementation libs.androidJUnitRunner
+    androidTestImplementation libs.androidJUnitRules
+    androidTestImplementation libs.espresso
+}
+
+kapt {
+    correctErrorTypes true
+}
